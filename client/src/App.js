@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Jumbotron, Button, Image } from 'react-bootstrap';
-import WorkshopRegisterContract from "./contracts/WorkshopRegister.json";
+import RecursiveDepositContract from "./contracts/RecursiveDeposit.json";
 import getWeb3 from "./utils/getWeb3";
 import truffleContract from "truffle-contract";
 
@@ -9,7 +9,7 @@ import "./App.css";
 class App extends Component {
   // signed state stores if the current user has signed the contract
   // isLoading disables the button when querying the contract
-  state = { signed: false, web3: null, accounts: null, contract: null, isLoading: false };
+  state = { web3: null, accounts: null, contract: null, isLoading: false, totalPot: 0 };
 
   componentDidMount = async () => {
     try {
@@ -20,14 +20,16 @@ class App extends Component {
       const accounts = await web3.eth.getAccounts();
 
       // Get the contract instance.
-      const Contract = truffleContract(WorkshopRegisterContract);
+      const Contract = truffleContract(RecursiveDepositContract);
       Contract.setProvider(web3.currentProvider);
       const instance = await Contract.deployed();
-      let initialResponse = await instance.checkRegister(accounts[0]);
+      const currentPot = await instance._totalPot();
+
+      console.log(currentPot);
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance, signed: initialResponse });
+      this.setState({ web3, accounts, contract: instance, totalPot: currentPot });
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -38,6 +40,8 @@ class App extends Component {
   };
 
   runExample = async () => {
+    // TODO
+
     const { accounts, contract } = this.state;
 
     this.setState({ isLoading: true });
@@ -51,7 +55,6 @@ class App extends Component {
 
     // Update state with the result.
     this.setState({
-      signed: response,
       isLoading: false
     })
   };
@@ -67,9 +70,9 @@ class App extends Component {
       <div className="App">
 
         <Jumbotron>
-          <h1>Sign the Decentralized Register</h1>
+          <h1>Win Now!</h1>
           <p>
-            Congratulations! You've launched a DApp. Now go and make this much better! And don't forget to sign the register:
+            Only NN minutes to go.
           </p>
           <p>
             <Button
@@ -77,27 +80,10 @@ class App extends Component {
               disabled={isLoading}
               onClick={!isLoading ? this.runExample : null}
             >
-              {isLoading ? 'Loading...' : 'Sign Now'}
+              {isLoading ? 'Loading...' : 'Bet now!'}
             </Button>
           </p>
         </Jumbotron>
-        <div>
-          {this.state.signed ? (
-            <div>
-              <p>
-                <strong>Vitalik thanks you for signing!</strong>
-              </p>
-              <Image src="https://beta.techcrunch.com/wp-content/uploads/2017/09/unnamed.gif" />
-            </div>
-          ) : (
-            <div>
-              <p>
-                You haven't signed the register yet!
-              </p>
-            </div>
-          )}
-
-        </div>
       </div>
     );
   }
