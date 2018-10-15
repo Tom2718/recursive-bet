@@ -1,6 +1,8 @@
 pragma solidity ^0.4.24;
 
-import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownership/Ownable.sol";
+// Use github link in Remix IDE
+// import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "./Ownable.sol";
 
 // A gambling contract where you win if you are the last person 
 // to add into the pot for longer than (XY) minutes
