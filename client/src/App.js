@@ -39,23 +39,46 @@ class App extends Component {
     }
   };
 
-  runExample = async () => {
-    // TODO
-
+  watchPot = async () => {
     const { accounts, contract } = this.state;
 
-    this.setState({ isLoading: true });
+    var depositEvent = contract.NewBet({fromBlock: 0, toBlock: 'latest'});
+    depositEvent.watch(function(err, result) {
+      if (err) {
+        console.log(err)
+        return;
+      }
+      console.log("New bet by " + result.args._addr + " of " + result.args._value);
+    })
 
-    // Sign the register
-    await contract.signRegister( { from: accounts[0] });
+    // depositEvent.stopWatching()
+  };
 
-    // Check you signed the register to prove it worked.
-    let response = await contract.checkRegister(accounts[0]);
-    console.log(response);
+  watchMyBets = async () => {
+    const { accounts, contract } = this.state;
+
+    var depositEvent = contract.NewBet({_addr: accounts[0]}, {fromBlock: 0, toBlock: 'latest'});
+    depositEvent.watch(function(err, result) {
+      if (err) {
+        console.log(err)
+        return;
+      }
+      console.log("New bet by " + result.args._addr + " of " + result.args._value);
+    })
+
+    // depositEvent.stopWatching()
+  };
+
+  getTotalPot = async () => {
+    const { accounts, contract, totalPot } = this.state;
+
+    // Check the pot
+    let tp = await contract._totalPot( { from: accounts[0] });
+    console.log(tp);
 
     // Update state with the result.
     this.setState({
-      isLoading: false
+      totalPot: tp
     })
   };
 
@@ -78,7 +101,7 @@ class App extends Component {
             <Button
               bsStyle="primary"
               disabled={isLoading}
-              onClick={!isLoading ? this.runExample : null}
+              onClick={!isLoading ? this.watchPot : null}
             >
               {isLoading ? 'Loading...' : 'Bet now!'}
             </Button>
