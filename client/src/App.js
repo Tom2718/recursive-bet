@@ -82,6 +82,14 @@ class App extends Component {
     })
   };
 
+  makeBet = async () => {
+    const { accounts, contract } = this.state;
+
+    // Check the pot
+    let tp = await contract.bet(accounts[0], { from: accounts[0], value: "1000000000000000000" });
+    console.log(tp);
+  }
+
   // The front end
   render() {
     const { isLoading } = this.state;
@@ -101,7 +109,7 @@ class App extends Component {
             <Button
               bsStyle="primary"
               disabled={isLoading}
-              onClick={!isLoading ? this.watchPot : null}
+              onClick={!isLoading ? this.makeBet : null}
             >
               {isLoading ? 'Loading...' : 'Bet now!'}
             </Button>
