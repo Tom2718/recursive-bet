@@ -12,7 +12,7 @@ contract RecursiveDeposit is Ownable{
     uint minBet;
     uint totalPot;
     
-    event NewBet(address _addr, uint _value);
+    event NewBet(address indexed _addr, uint _value);
 
     constructor (uint bettingCycle, uint minimumBet) public {
         timeDelay = 30 minutes; // bettingCycle
@@ -23,7 +23,7 @@ contract RecursiveDeposit is Ownable{
     }
 
     function bet(address better) public payable {
-        require(better!=0x0);
+        require(better!=0x0, "Invalid address");
         require(msg.value >= minBet, "Bets must be more than or equal to 0.005 ether"); // hardcoded minbet warning
 
         checkCloseBetting();
@@ -33,7 +33,7 @@ contract RecursiveDeposit is Ownable{
         mostRecentBetter = better;
         totalPot += msg.value;
         
-        NewBet(msg.sender, msg.value);
+        emit NewBet(msg.sender, msg.value);
     }
     
     function _totalPot() public view returns (uint){
@@ -53,8 +53,8 @@ contract RecursiveDeposit is Ownable{
     function withdraw() public {
         checkCloseBetting();
 
-        require(!isOpen);
-        require(msg.sender==mostRecentBetter);
+        require(!isOpen, "Nobody has won yet!");
+        require(msg.sender==mostRecentBetter, "You're not the winner");
 
         msg.sender.transfer(totalPot);
     }
