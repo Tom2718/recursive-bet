@@ -1,18 +1,30 @@
 import React, { Component } from "react";
+
+// Material Ui Core
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import Code from '@material-ui/icons/Code';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
-import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+
+// Material Ui Styles
+import { withStyles } from '@material-ui/core/styles';
+
+// Material Ui Icons
+import Code from '@material-ui/icons/Code';
+
+// Ethereum
 import RecursiveDepositContract from "./contracts/RecursiveDeposit.json";
 import getWeb3 from "./utils/getWeb3";
 import truffleContract from "truffle-contract";
 
+// Other components
+import SnackbarMessage from "./components/SnackbarMessage"
+
 import "./App.css";
 import styles from "./assets/js/appStyle";
+
 class App extends Component {
   // signed state stores if the current user has signed the contract
   // isLoading disables the button when querying the contract
