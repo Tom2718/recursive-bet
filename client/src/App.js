@@ -1,11 +1,18 @@
 import React, { Component } from "react";
-import { Jumbotron, Button, Image } from 'react-bootstrap';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Code from '@material-ui/icons/Code';
+import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
+import Toolbar from '@material-ui/core/Toolbar';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import RecursiveDepositContract from "./contracts/RecursiveDeposit.json";
 import getWeb3 from "./utils/getWeb3";
 import truffleContract from "truffle-contract";
 
 import "./App.css";
-
+import styles from "./assets/js/appStyle";
 class App extends Component {
   // signed state stores if the current user has signed the contract
   // isLoading disables the button when querying the contract
@@ -32,9 +39,6 @@ class App extends Component {
       this.setState({ web3, accounts, contract: instance, totalPot: currentPot });
     } catch (error) {
       // Catch any errors for any of the above operations.
-      alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`
-      );
       console.log(error);
     }
   };
@@ -88,36 +92,64 @@ class App extends Component {
     // Check the pot
     let tp = await contract.bet(accounts[0], { from: accounts[0], value: "1000000000000000000" });
     console.log(tp);
-  }
+  };
 
   // The front end
   render() {
     const { isLoading } = this.state;
+    const { classes } = this.props;
 
-    if (!this.state.web3) {
-      return <div>Loading Web3, accounts, and contract. Make sure Metamask is unlocked and connected to the Ganache network.</div>;
-    }
+    // if (!this.state.web3) {
+    //   return <div>Loading Web3, accounts, and contract. Make sure Metamask is unlocked and connected to the Ropsten network.</div>;
+    // }
     return (
-      <div className="App">
+      <div className={classes.layout}>
+      <Toolbar className={classes.toolbarMain}>
+        <Typography
+          component="h2"
+          variant="h4"
+          color="inherit"
+          align="center"
+          noWrap
+          className={classes.toolbarTitle}
+        >
+          Recursive Bet
+        </Typography>
+        <IconButton className={classes.button} aria-label="GitHub">
+          <Code />
+        </IconButton>
+      </Toolbar>
 
-        <Jumbotron>
-          <h1>Win Now!</h1>
-          <p>
-            Only NN minutes to go.
-          </p>
-          <p>
-            <Button
-              bsStyle="primary"
+
+      <main>
+        <h1>Win Now!</h1>
+        <p>
+          Only NN minutes to go.
+        </p>
+        {!this.state.web3 ?
+        <div>Loading Web3, accounts, and contract. Make sure Metamask is unlocked and connected to the Ropsten network.</div> 
+        : null
+         }
+        <Grid container spacing={40} className={classes.mainGrid}>
+          <Grid item xs={12} md={12}>
+            <Typography variant="h6" gutterBottom>
+              Explanation...
+            </Typography>
+            <Divider />
+            <Button variant="contained" color="primary"
               disabled={isLoading}
               onClick={!isLoading ? this.makeBet : null}
             >
               {isLoading ? 'Loading...' : 'Bet now!'}
             </Button>
-          </p>
-        </Jumbotron>
+            <Divider />
+          </Grid>
+        </Grid>
+      </main>
       </div>
     );
   }
 }
 
-export default App;
+// inject style classes
+export default withStyles(styles)(App);
