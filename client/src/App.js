@@ -127,36 +127,47 @@ class App extends Component {
         >
           Recursive Bet
         </Typography>
-        <IconButton className={classes.button} aria-label="GitHub">
+        <IconButton className={classes.button} aria-label="GitHub" href="https://github.com/Tom2718">
           <Code />
         </IconButton>
       </Toolbar>
 
 
       <main>
-        <h1>Win Now!</h1>
-        <p>
-          Only NN minutes to go.
-        </p>
-        {!this.state.web3 ?
-        <div>Loading Web3, accounts, and contract. Make sure Metamask is unlocked and connected to the Ropsten network.</div> 
-        : null
-         }
         <Grid container spacing={40} className={classes.mainGrid}>
-          <Grid item xs={12} md={12}>
-            <Typography variant="h6" gutterBottom>
-              Explanation...
-            </Typography>
-            <Divider />
-            <Button variant="contained" color="primary"
+          <Grid item md={6} align="center">
+          <h2>Win Now!</h2>
+          <p>
+            Only NN minutes to go.
+          </p>
+          </Grid>
+          <Grid item md={6} align="center">
+            <Button
+              classes={{
+                root: classes.playButton,
+              }}
               disabled={isLoading}
               onClick={!isLoading ? this.makeBet : null}
             >
               {isLoading ? 'Loading...' : 'Bet now!'}
             </Button>
-            <Divider />
           </Grid>
         </Grid>
+        <Divider className={classes.divider} />
+        <Grid container spacing={40} className={classes.mainGrid}>
+          <Grid item md={6} className={classes.mainFeaturedPostContent}>
+          The aim of the game is to be the last person to put ETH into the pot - if you remain there for 30 minutes then you win the entire pot instantly.
+          Ok - the real aim is to practice coding and thinking about smart contracts and developing (secure) DApps. Unless if you make millions - then share!
+          </Grid>
+        </Grid>
+        {!this.state.web3 ?
+          <SnackbarMessage
+          variant="error"
+          className={classes.margin}
+          message="Error: Make sure Metamask is unlocked and connected to the correct Ethereum network."
+        />
+        : null
+         }
       </main>
       </div>
     );
