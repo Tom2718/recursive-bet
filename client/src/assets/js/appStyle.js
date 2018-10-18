@@ -15,16 +15,13 @@ const styles = theme => ({
     toolbarTitle: {
       flex: 1,
     },
-    toolbarSecondary: {
-      justifyContent: 'space-between',
-    },
     mainFeaturedPost: {
       backgroundColor: theme.palette.grey[800],
       color: theme.palette.common.white,
       marginBottom: theme.spacing.unit * 4,
     },
     mainFeaturedPostContent: {
-      padding: `${theme.spacing.unit * 6}px`,
+      padding: `${theme.spacing.unit * 4}px`,
       [theme.breakpoints.up('md')]: {
         paddingRight: 0,
       },
@@ -32,24 +29,8 @@ const styles = theme => ({
     mainGrid: {
       marginTop: theme.spacing.unit * 3,
     },
-    card: {
-      display: 'flex',
-    },
-    cardDetails: {
-      flex: 1,
-    },
-    cardMedia: {
-      width: 160,
-    },
-    markdown: {
-      padding: `${theme.spacing.unit * 3}px 0`,
-    },
-    sidebarAboutBox: {
-      padding: theme.spacing.unit * 2,
-      backgroundColor: theme.palette.grey[200],
-    },
-    sidebarSection: {
-      marginTop: theme.spacing.unit * 3,
+    divider: {
+      margin: `${theme.spacing.unit * 3}px 0`,
     },
     footer: {
       backgroundColor: theme.palette.background.paper,
@@ -58,6 +39,18 @@ const styles = theme => ({
     },
     button: {
       margin: theme.spacing.unit,
+    },
+    margin: {
+      margin: theme.spacing.unit,
+    },
+    playButton: {
+      background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+      borderRadius: 3,
+      border: 0,
+      color: 'white',
+      height: 48,
+      padding: '0 45px',
+      boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     },
   });
 
