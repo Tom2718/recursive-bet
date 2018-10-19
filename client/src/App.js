@@ -18,6 +18,7 @@ import Code from '@material-ui/icons/Code';
 import RecursiveDepositContract from "./contracts/RecursiveDeposit.json";
 import getWeb3 from "./utils/getWeb3";
 import truffleContract from "truffle-contract";
+import {BigNumber} from 'bignumber.js';
 
 // Other components
 import SnackbarMessage from "./components/SnackbarMessage"
@@ -26,7 +27,6 @@ import "./App.css";
 import styles from "./assets/js/appStyle";
 
 class App extends Component {
-  // signed state stores if the current user has signed the contract
   // isLoading disables the button when querying the contract
   state = { web3: null, accounts: null, contract: null, isLoading: false, totalPot: 0 };
 
@@ -42,9 +42,12 @@ class App extends Component {
       const Contract = truffleContract(RecursiveDepositContract);
       Contract.setProvider(web3.currentProvider);
       const instance = await Contract.deployed();
-      const currentPot = await instance._totalPot();
-
-      console.log(currentPot);
+      let currentPot;
+      await instance.getTotalPot.call({from: accounts[0]}).then((tp) => {
+        currentPot = BigNumber(tp.toString()).dividedBy(BigNumber('1e18'));
+      });
+      
+      console.log(currentPot.toString());
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
@@ -108,7 +111,7 @@ class App extends Component {
 
   // The front end
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, totalPot } = this.state;
     const { classes } = this.props;
 
     // if (!this.state.web3) {
@@ -134,14 +137,18 @@ class App extends Component {
 
 
       <main>
-        <Grid container spacing={40} className={classes.mainGrid}>
-          <Grid item md={6} align="center">
+        <Grid container spacing={40} className={classes.mainGrid} alignItems="center">
+          <Grid item md={4} align="center" >
+            <h4>{totalPot.toString()}</h4>
+            <p>ETH in the Pot</p>
+          </Grid>
+          <Grid item md={4} align="center">
           <h2>Win Now!</h2>
           <p>
             Only NN minutes to go.
           </p>
           </Grid>
-          <Grid item md={6} align="center">
+          <Grid item md={4} align="center" >
             <Button
               classes={{
                 root: classes.playButton,
@@ -154,19 +161,25 @@ class App extends Component {
           </Grid>
         </Grid>
         <Divider className={classes.divider} />
-        <Grid container spacing={40} className={classes.mainGrid}>
+        <Grid container spacing={40} justify="center" className={classes.mainGrid}>
           <Grid item md={6} className={classes.mainFeaturedPostContent}>
           The aim of the game is to be the last person to put ETH into the pot - if you remain there for 30 minutes then you win the entire pot instantly.
           Ok - the real aim is to practice coding and thinking about smart contracts and developing (secure) DApps. Unless if you make millions - then share!
+          <Divider className={classes.divider} />
           </Grid>
         </Grid>
         {!this.state.web3 ?
-          <SnackbarMessage
+        <SnackbarMessage
           variant="error"
           className={classes.margin}
           message="Error: Make sure Metamask is unlocked and connected to the correct Ethereum network."
         />
-        : null
+        : 
+        <SnackbarMessage
+          variant="success"
+          className={classes.margin}
+          message="Success: Connected to the Ethereum network."
+        />
          }
       </main>
       </div>

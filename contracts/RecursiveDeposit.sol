@@ -38,7 +38,7 @@ contract RecursiveDeposit is Ownable{
         emit NewBet(msg.sender, msg.value);
     }
     
-    function _totalPot() public view returns (uint){
+    function getTotalPot() public view returns (uint){
         return totalPot;
     }
 
