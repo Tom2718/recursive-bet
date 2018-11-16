@@ -11,3 +11,25 @@ The Solidity smart contract that governs the game can be found in the contracts 
 ## The Web Application
 
 The front end is a React App found in the client directory. This is a simple user interface that interacts with web3 to allow the user to buy into the game.
+
+The web app currently uses:
+
+- React
+- Material UI
+
+
+## Contributing
+
+You're more than welcome to contribute to the project. Simply make a pull request.
+
+## To Do
+
+- Receive time left from the previous bet
+- Add text field to enter amount of Ether to bet
+- Add icons to previous user bets
+- Notification on successful bet
+- Notification on being outbet
+
+## Current App
+
+![](./img/home.png)
