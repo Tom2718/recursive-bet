@@ -4,7 +4,7 @@ node_js:
 
 before_install:
   - npm install -g truffle ganache-cli
-  - ganache-cli
+  - ganache-cli &
   - truffle compile
   - truffle migrate --network ci
   - cd client
