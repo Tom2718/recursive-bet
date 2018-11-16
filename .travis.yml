@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "lts/*"
+
+before_install:
+  - npm install -g truffle
+  - truffle compile
+  - truffle migrate
+  - cd client
+
+before_script:
+  - npm run link-contracts
+
+script:
+  - npm test
