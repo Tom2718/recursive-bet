@@ -3,9 +3,10 @@ node_js:
   - "lts/*"
 
 before_install:
-  - npm install -g truffle
+  - npm install -g truffle ganache-cli
+  - ganache-cli
   - truffle compile
-  - truffle migrate
+  - truffle migrate --network ci
   - cd client
 
 before_script:

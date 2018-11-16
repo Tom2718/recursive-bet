@@ -6,6 +6,13 @@ module.exports = {
       host: "127.0.0.1",
       port: 7545,
       network_id: "*" // Match any network id
+    },
+    ci: {
+      host: "127.0.0.1",
+      port: 8545,
+      network_id: "*"
     }
   }
+
+  // Add additional networks here if you want to deploy to testnets or mainnet
 };
