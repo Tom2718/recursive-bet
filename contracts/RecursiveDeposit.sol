@@ -4,7 +4,7 @@ pragma solidity ^0.4.24;
 // import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "./Ownable.sol";
 
-// A gambling contract where you win if you are the last person 
+// A gambling contract where you win if you are the last person
 // to add into the pot for longer than (XY) minutes
 contract RecursiveDeposit is Ownable{
     uint timeDelay;
@@ -13,11 +13,11 @@ contract RecursiveDeposit is Ownable{
     uint lastBetTime;
     uint minBet;
     uint totalPot;
-    
+
     event NewBet(address indexed _addr, uint _value);
 
     constructor (uint bettingCycle, uint minimumBet) public {
-        timeDelay = 30 minutes; // bettingCycle
+        timeDelay = 300 minutes; // bettingCycle
         lastBetTime = now;
         totalPot = 0;
         isOpen = true;
@@ -34,12 +34,15 @@ contract RecursiveDeposit is Ownable{
 
         mostRecentBetter = better;
         totalPot += msg.value;
-        
+
         emit NewBet(msg.sender, msg.value);
     }
-    
+
     function getTotalPot() public view returns (uint){
         return totalPot;
+    }
+    function getLastBetTime() public view returns (uint){
+        return lastBetTime;
     }
 
     function () public payable {
