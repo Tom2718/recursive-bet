@@ -14,3 +14,5 @@ before_script:
 
 script:
   - npm test
+  - cd ..
+  - truffle test --network ci
