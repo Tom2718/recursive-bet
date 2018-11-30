@@ -33,7 +33,7 @@ import styles from "./assets/js/appStyle";
 
 class App extends Component {
   // isLoading disables the button when querying the contract
-  state = { web3: null, accounts: null, contract: null, isLoading: false, totalPot: 0, newBets: [] };
+  state = { web3: null, accounts: null, contract: null, isLoading: false, totalPot: 0, newBets: [], betTimeDiff: 30 };
 
   componentDidMount = async () => {
     try {
@@ -50,10 +50,15 @@ class App extends Component {
 
       // contract address on ropsten: "0x6be39b681ce4dbb1866602b0d90011d3a01a6b67"
       // web3 v1: https://web3js.readthedocs.io/en/1.0/index.html
-      var instance = await new web3.eth.Contract(RecursiveDepositABI, "0x6be39b681ce4dbb1866602b0d90011d3a01a6b67");
+      var instance = await new web3.eth.Contract(RecursiveDepositABI, "0x933dccab2d7fe84b6522e1ab210f8621bb3ac3ab");
 
       // console.log(instance);
       let currentPot = BigNumber((await instance.methods.getTotalPot().call({from: accounts[0]})).toString()).dividedBy(BigNumber('1e18'));
+      let lastTime = await instance.methods.getLastBetTime().call();
+
+      const timeDelay = 300 * 60; // 300 minutes
+      let timeNow = new Date();
+      let timeDiff = timeDelay - (Math.floor(timeNow.getTime()/1000) - lastTime);
       // console.log(currentPot);
       // .then((tp) => {
       //  currentPot = BigNumber(tp.toString()).dividedBy(BigNumber('1e18'));
@@ -61,7 +66,7 @@ class App extends Component {
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance, totalPot: currentPot });
+      this.setState({ web3, accounts, contract: instance, totalPot: currentPot, betTimeDiff: timeDiff });
       setTimeout(this.watchPot, 1000);
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -74,11 +79,11 @@ class App extends Component {
     const prevState = this.state;
 
     let updatedBets = [];
-    contract.events.NewBet({fromBlock: 0, toBlock: 'latest'}, 
+    contract.events.NewBet({fromBlock: 0, toBlock: 'latest'},
       (error, event) => {
         if (error){
           console.log(error);
-        } 
+        }
         console.log(event.returnValues);
         updatedBets.push(event.returnValues);
 
@@ -87,7 +92,7 @@ class App extends Component {
         });
       });
       // console.log(...updatedBets);
-    
+
 
     console.log(this.state.newBets);
     // console.log(event);
@@ -150,7 +155,7 @@ class App extends Component {
 
   // The front end
   render() {
-    const { isLoading, totalPot, newBets } = this.state;
+    const { isLoading, totalPot, newBets, betTimeDiff } = this.state;
     const { classes } = this.props;
 
     // if (!this.state.web3) {
@@ -184,7 +189,7 @@ class App extends Component {
           <Grid item md={4} align="center">
           <h2>Win Now!</h2>
           <p>
-            Only NN minutes to go.
+            Only {Math.floor(betTimeDiff/60)} minutes to go.
           </p>
           </Grid>
           <Grid item md={4} align="center" >
@@ -205,13 +210,13 @@ class App extends Component {
           The aim of the game is to be the last person to put ETH into the pot - if you remain there for 30 minutes then you win the entire pot instantly.
           Ok - the real aim is to practice coding and thinking about smart contracts and developing (secure) DApps. Unless if you make millions - then share!
           <Divider className={classes.divider} />
-          
+
             <Typography variant="h6" className={classes.title}>
               Previous Bets
             </Typography>
             <div className={classes.demo}>
               <List>
-                {newBets.map( (bet) => 
+                {newBets.map( (bet) =>
                   <ListItem key={bet._addr}>
                     <ListItemIcon>
                       <Code />
@@ -232,7 +237,7 @@ class App extends Component {
           className={classes.margin}
           message="Error: Make sure Metamask is unlocked and connected to the correct Ethereum network."
         />
-        : 
+        :
         <SnackbarMessage
           variant="success"
           className={classes.margin}
