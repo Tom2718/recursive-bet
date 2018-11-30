@@ -4,8 +4,11 @@ pragma solidity ^0.4.24;
 // import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "./Ownable.sol";
 
-// A gambling contract where you win if you are the last person
-// to add into the pot for longer than (XY) minutes
+/**
+ * @title RecursiveDeposit
+ * @dev A gambling contract where you win if you are the last person
+ * to add into the pot for longer than (XY) minutes
+ */
 contract RecursiveDeposit is Ownable{
     uint timeDelay;
     address mostRecentBetter;
@@ -16,6 +19,11 @@ contract RecursiveDeposit is Ownable{
 
     event NewBet(address indexed _addr, uint _value);
 
+    /**
+     * @dev initialises the contract with the houses parameters.
+     * @param bettingCycle sets the maximum delay betweeen bets.
+     * @param minimumBet sets the minimum allowable bet.
+     */
     constructor (uint bettingCycle, uint minimumBet) public {
         timeDelay = 300 minutes; // bettingCycle
         lastBetTime = now;
@@ -24,6 +32,10 @@ contract RecursiveDeposit is Ownable{
         minBet = 0.005 ether; // minimumBet
     }
 
+    /**
+     * @dev allows someone to make a bet.
+     * @param better is the address owning a bet.
+     */
     function bet(address better) public payable {
         require(better!=0x0, "Invalid address");
         require(msg.value >= minBet, "Bets must be more than or equal to 0.005 ether"); // hardcoded minbet warning
@@ -41,6 +53,7 @@ contract RecursiveDeposit is Ownable{
     function getTotalPot() public view returns (uint){
         return totalPot;
     }
+
     function getLastBetTime() public view returns (uint){
         return lastBetTime;
     }
@@ -49,12 +62,19 @@ contract RecursiveDeposit is Ownable{
         bet(msg.sender);
     }
 
+    /**
+     * @dev checks if time has expired for bets.
+     * @notice this must be called to officially end the round.
+     */
     function checkCloseBetting() internal {
         if (now - lastBetTime > timeDelay){
             isOpen = false;
         }
     }
 
+    /**
+     * @dev allows the winning address to withdraw their winnings.
+     */
     function withdraw() public {
         checkCloseBetting();
 
