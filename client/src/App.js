@@ -22,7 +22,7 @@ import Code from '@material-ui/icons/Code';
 // import RecursiveDepositContract from "./contracts/RecursiveDeposit.json";
 import RecursiveDepositABI from "./RecursiveDeposit.js";
 import getWeb3 from "./utils/getWeb3";
-import truffleContract from "truffle-contract";
+// import truffleContract from "truffle-contract";
 import {BigNumber} from 'bignumber.js';
 
 // Other components
