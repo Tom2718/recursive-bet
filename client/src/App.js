@@ -163,21 +163,23 @@ class App extends Component {
     // }
     return (
       <div className={classes.layout}>
-      <Toolbar className={classes.toolbarMain}>
+      <Grid container item md={12} alignItems="center" justify="space-between" className={classes.toolbarMain}>
+        <Grid item>
         <Typography
           component="h2"
           variant="h4"
           color="inherit"
-          align="center"
-          noWrap
           className={classes.toolbarTitle}
         >
           Recursive Bet
         </Typography>
+        </Grid>
+        <Grid item>
         <IconButton className={classes.button} aria-label="GitHub" href="https://github.com/Tom2718">
           <Code />
         </IconButton>
-      </Toolbar>
+        </Grid>
+      </Grid>
 
 
       <main>
