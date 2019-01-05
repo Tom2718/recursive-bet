@@ -4,6 +4,8 @@ The aim of the game is to be the last person to put Eth into the pot - if you ar
 
 Ok - the real aim is to practice coding and thinking about smart contracts and developing (secure) DApps.
 
+The premise is inspired by the [Reddit Button](https://en.wikipedia.org/wiki/The_Button_(Reddit)).
+
 ## The Smart Contract
 
 The Solidity smart contract that governs the game can be found in the contracts folder as `RecursiveDeposit.sol`. The contract is fairly simple in its implementation of buy ins and payouts.
