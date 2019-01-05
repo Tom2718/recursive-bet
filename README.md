@@ -24,11 +24,11 @@ You're more than welcome to contribute to the project. Simply make a pull reques
 
 ## To Do
 
-- Receive time left from the previous bet
 - Add text field to enter amount of Ether to bet
 - Add icons to previous user bets
 - Notification on successful bet
 - Notification on being outbet
+- Update app screenshot
 
 ## Current App
 
