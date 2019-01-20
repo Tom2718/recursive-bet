@@ -212,7 +212,7 @@ class App extends Component {
             <IconButton
               className={classes.button}
               aria-label="GitHub"
-              href="https://github.com/Tom2718"
+              href="https://github.com/Tom2718/recursive-bet"
             >
               <Code />
             </IconButton>
