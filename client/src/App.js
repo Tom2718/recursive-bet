@@ -55,11 +55,11 @@ class App extends Component {
       // Contract.setProvider(web3.currentProvider);
       // const instance = await Contract.deployed();
 
-      // contract address on ropsten: "0x6be39b681ce4dbb1866602b0d90011d3a01a6b67"
+      // contract address on ropsten: "0xe16c85ac8f2affb6028db5560363ed07f2a809db"
       // web3 v1: https://web3js.readthedocs.io/en/1.0/index.html
       var instance = await new web3.eth.Contract(
         RecursiveDepositABI,
-        "0x933dccab2d7fe84b6522e1ab210f8621bb3ac3ab"
+        "0xe16c85ac8f2affb6028db5560363ed07f2a809db"
       );
 
       // console.log(instance);
@@ -70,7 +70,7 @@ class App extends Component {
       ).dividedBy(BigNumber("1e18"));
       let lastTime = await instance.methods.getLastBetTime().call();
 
-      const timeDelay = 300 * 60; // 300 minutes
+      const timeDelay = 365 * 24 * 60; // 365 days
       let timeNow = new Date();
       let timeDiff =
         timeDelay - (Math.floor(timeNow.getTime() / 1000) - lastTime);
