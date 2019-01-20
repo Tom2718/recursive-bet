@@ -1,5 +1,5 @@
 {
-  "name": "Recursive Bet",
+  "name": "RecursiveBet",
   "version": "0.2.1",
   "description": "This is a demonstrative Ethereum DApp that allows users to bet and outbet others.",
   "private": true,
