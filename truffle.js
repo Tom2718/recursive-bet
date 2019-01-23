@@ -12,7 +12,11 @@ module.exports = {
       port: 8545,
       network_id: "*"
     }
-  }
-
   // Add additional networks here if you want to deploy to testnets or mainnet
+  },
+  compilers: {
+    solc: {
+      version: "0.4.25",   // Change this to whatever you need
+    }
+  }
 };
