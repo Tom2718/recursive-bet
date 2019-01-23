@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
 // Use github link in Remix IDE
 // import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/ownership/Ownable.sol";
@@ -10,6 +10,8 @@ import "./Ownable.sol";
  * to add into the pot for longer than (XY) minutes
  */
 contract RecursiveDeposit is Ownable{
+
+    // These variables could be made public instead
     uint timeDelay;
     address mostRecentBetter;
     bool isOpen;
