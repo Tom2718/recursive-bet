@@ -1,5 +1,7 @@
 # A Decentralized Recursive Betting Application
 
+[![Build Status](https://travis-ci.org/Tom2718/recursive-bet.svg?branch=master)](https://travis-ci.org/Tom2718/recursive-bet)
+
 [See The Live Demo on Ropsten](https://Tom2718.github.io/recursive-bet/)
 
 The aim of the game is to be the last person to put Eth into the pot - if you are then you win the entire pot instantly.
