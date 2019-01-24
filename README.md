@@ -23,6 +23,28 @@ The web app currently uses:
 - React
 - Material UI
 
+## Installation
+
+To build and run the application, make sure [Ganache](https://truffleframework.com/ganache) is installed and running.
+
+Compile and migrate the smart contracts ([Read more about this](https://truffleframework.com/tutorials/pet-shop#compiling-and-migrating-the-smart-contract)).
+
+```sh
+truffle compile
+truffle migrate
+```
+
+Install the dependencies for the react app and start the server:
+
+```sh
+cd client
+npm install
+npm run link-contracts
+npm run start
+```
+
+To interact with the DApp, make sure Metamask is configured to the Ganache network.
+
 
 ## Contributing
 
